@@ -7,20 +7,14 @@ const authRoutes = require('./routes/auth');
 
 const app = express();
 
-// 🛡️ CORS configuration
+// 🛡️ CORS configuration - Allow all Vercel deployments
 app.use(cors({
   origin: function (origin, callback) {
-    const allowedOrigins = [
-      'http://localhost',
-      'http://127.0.0.1',
-      'https://blogorbit.vercel.app', // Your Vercel domain
-      'https://blogorbit-moon.vercel.app' // Alternative Vercel domain
-    ];
-    if (
-      !origin ||
-      allowedOrigins.some(base => origin.startsWith(base)) ||
-      (origin && origin.endsWith('.vercel.app')) // Allow all Vercel preview deployments
-    ) {
+    // Allow localhost for development
+    if (!origin || 
+        origin.startsWith('http://localhost') || 
+        origin.startsWith('http://127.0.0.1') ||
+        origin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
       console.warn('❌ CORS not allowed for origin:', origin);
